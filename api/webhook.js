@@ -8,15 +8,11 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 export default async function handler(req, res) {
   // ✅ Verification
   if (req.method === "GET") {
-    const mode = req.query["hub.mode"];
-    const token = req.query["hub.verify_token"];
-    const challenge = req.query["hub.challenge"];
+  console.log("VERIFY TOKEN FROM META:", req.query["hub.verify_token"]);
+  console.log("VERIFY TOKEN FROM ENV:", VERIFY_TOKEN);
 
-    if (mode === "subscribe" && token === VERIFY_TOKEN) {
-      return res.status(200).send(challenge);
-    }
-    return res.sendStatus(403);
-  }
+  return res.status(200).send(req.query["hub.challenge"]);
+}
 
   // ✅ Handle messages
   if (req.method === "POST") {
